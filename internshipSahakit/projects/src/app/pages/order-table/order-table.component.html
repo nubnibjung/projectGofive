@@ -1,0 +1,235 @@
+<div class="min-h-screen bg-[#f6f7fb] text-slate-800 flex">
+  <!-- Sidebar -->
+  <aside class="w-60 shrink-0 text-white" style="background: linear-gradient(180deg,#0ea5e9,#2563eb)">
+    <div class="p-5">
+      <div class="flex items-center gap-2">
+        <div class="w-9 h-9 grid place-items-center rounded-xl bg-white/20 font-bold">eP</div>
+        <span class="font-semibold">eProduct</span>
+      </div>
+
+      <nav class="mt-6 space-y-1 text-sm">
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-white/10" href="#"><span>🏠</span> Dashboard</a>
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl bg-white/15" href="#"><span>🧾</span> Order</a>
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-white/10" href="#"><span>📈</span> Statistic</a>
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-white/10" href="#"><span>📦</span> Product</a>
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-white/10" href="#"><span>🏷️</span> Stock</a>
+        <a class="flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-white/10" href="#"><span>🎁</span> Offer</a>
+      </nav>
+
+      <div class="mt-10 text-xs/relaxed opacity-90">
+        <a href="#">Facebook</a> · <a href="#">Twitter</a> · <a href="#">Google</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 p-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-5">
+      <div>
+        <h1 class="text-2xl font-semibold">Order</h1>
+        <p class="text-sm text-slate-500">28 orders found</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="rounded-xl border border-slate-200 bg-white px-3 py-2">🔔</button>
+        <button class="rounded-xl border border-slate-200 bg-white px-3 py-2">🔍</button>
+        <img src="https://i.pravatar.cc/40?img=2" class="h-10 w-10 rounded-full" />
+      </div>
+    </div>
+
+    <!-- Tabs + Filters -->
+    <div class="bg-white border border-slate-200 rounded-2xl p-4 mb-4">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-6 text-sm">
+          <button class="border-b-2 pb-1"
+                  [class.border-slate-900]="tab()==='All'"
+                  [class.text-slate-900]="tab()==='All'"
+                  (click)="setTab('All')">All orders</button>
+          <span class="text-slate-400">Dispatch</span>
+          <span class="text-slate-400">Pending</span>
+          <span class="text-slate-400">Completed</span>
+        </div>
+
+        <div class="flex items-center gap-2 text-sm">
+          <div class="rounded-xl border border-slate-200 bg-white px-3 py-2 flex items-center gap-2">
+            <span class="opacity-60">📅</span>
+            <input type="date" class="outline-none" [ngModel]="dateFrom()" (ngModelChange)="dateFrom.set($event)" />
+          </div>
+          <span class="text-slate-400">to</span>
+          <div class="rounded-xl border border-slate-200 bg-white px-3 py-2 flex items-center gap-2">
+            <span class="opacity-60">📅</span>
+            <input type="date" class="outline-none" [ngModel]="dateTo()" (ngModelChange)="dateTo.set($event)" />
+          </div>
+
+          <div class="rounded-xl border border-slate-200 bg-white px-3 py-2 flex items-center gap-2">
+            <span class="opacity-60">🔎</span>
+            <input placeholder="Search order…" class="outline-none w-56"
+                   [ngModel]="q()" (ngModelChange)="q.set($event)" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <section class="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+      <!-- Head -->
+      <div class="px-5 py-3 text-xs uppercase tracking-wide text-slate-500 border-b border-slate-200">
+        <div class="grid grid-cols-12">
+          <button type="button" class="col-span-2 flex items-center gap-1 text-left" (click)="setSort('code')">
+            Id <span *ngIf="sortKey()==='code'">{{ sortDir()==='asc' ? '▲' : '▼' }}</span>
+          </button>
+          <button type="button" class="col-span-2 flex items-center gap-1 text-left" (click)="setSort('name')">
+            Name <span *ngIf="sortKey()==='name'">{{ sortDir()==='asc' ? '▲' : '▼' }}</span>
+          </button>
+          <button type="button" class="col-span-3 flex items-center gap-1 text-left" (click)="setSort('address')">
+            Address <span *ngIf="sortKey()==='address'">{{ sortDir()==='asc' ? '▲' : '▼' }}</span>
+          </button>
+          <button type="button" class="col-span-2 flex items-center gap-1 text-left" (click)="setSort('date')">
+            Date <span *ngIf="sortKey()==='date'">{{ sortDir()==='asc' ? '▲' : '▼' }}</span>
+          </button>
+          <button type="button" class="col-span-1 flex items-center gap-1 text-left" (click)="setSort('price')">
+            Price <span *ngIf="sortKey()==='price'">{{ sortDir()==='asc' ? '▲' : '▼' }}</span>
+          </button>
+          <button type="button" class="col-span-1 flex items-center gap-1 text-left" (click)="setSort('status')">
+            Status <span *ngIf="sortKey()==='status'">{{ sortDir()==='asc' ? '▲' : '▼' }}</span>
+          </button>
+          <div class="col-span-1 text-right">Action</div>
+        </div>
+      </div>
+
+      <!-- Rows -->
+      <!-- Rows: ไม่มี active blue แล้ว -->
+<ng-container *ngFor="let o of pageItems()">
+  <div class="relative group my-1">
+    <!-- พื้นหลังสีน้ำเงิน + เงาฟุ้ง แสดงเมื่อ hover -->
+    <div
+      class="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition duration-200"
+      style="
+        background: linear-gradient(90deg,#0ea5e9,#2563eb);
+        box-shadow: 0 12px 24px rgba(37,99,235,.25), 0 2px 6px rgba(37,99,235,.25);
+      ">
+    </div>
+
+    <!-- แถบเงาซอฟต์ด้านบน/ล่างให้ละมุนเหมือนภาพ -->
+    <div class="pointer-events-none absolute -top-3 left-0 right-0 h-3 opacity-0 group-hover:opacity-100 transition duration-200"
+         style="background:linear-gradient(180deg,rgba(37,99,235,.20),rgba(37,99,235,0))"></div>
+    <div class="pointer-events-none absolute -bottom-3 left-0 right-0 h-3 opacity-0 group-hover:opacity-100 transition duration-200"
+         style="background:linear-gradient(0deg,rgba(37,99,235,.20),rgba(37,99,235,0))"></div>
+
+    <!-- เนื้อหาแถว -->
+    <div
+      class="relative z-10 px-5 py-4 rounded-xl border border-transparent transition
+             group-hover:text-white group-hover:border-transparent">
+      <div class="grid grid-cols-12 items-center">
+        <!-- Id -->
+        <div class="col-span-2 font-medium">
+          {{ o.code }}
+        </div>
+
+        <!-- Name -->
+        <div class="col-span-2 font-medium flex items-center gap-2">
+          <img [src]="o.avatar" class="h-6 w-6 rounded-full ring-1 ring-white/40 group-hover:ring-white/70 transition" />
+          {{ o.name }}
+        </div>
+
+        <!-- Address -->
+        <div class="col-span-3 text-slate-600 truncate group-hover:text-white/95 transition">
+          {{ o.address }}
+        </div>
+
+        <!-- Date -->
+        <div class="col-span-2">
+          {{ o.date | date:'dd MMM yyyy' }}
+        </div>
+
+        <!-- Price -->
+        <div class="col-span-1">
+          ${{ o.price.toFixed(2) }}
+        </div>
+
+        <!-- Status (กลับโทนเป็น badge โปร่งบนพื้นน้ำเงิน) -->
+        <div class="col-span-1">
+          <span
+            class="inline-flex items-center gap-1 px-2 py-1 text-xs rounded-full border transition
+                   group-hover:border-white/60 group-hover:bg-white/15 group-hover:text-white"
+            [ngClass]="!editOpen() ? statusClass(o.status) : ''">
+            {{ o.status }}
+          </span>
+        </div>
+
+        <!-- Action -->
+        <div class="col-span-1 text-right">
+          <button
+            class="rounded-lg border px-2 py-1 transition
+                   border-slate-200 bg-white
+                   group-hover:border-white/70 group-hover:bg-white/20 group-hover:text-white"
+            (click)="onEdit(o)">
+            Edit
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+
+
+      <!-- Footer -->
+      <div class="px-5 py-4 flex items-center justify-between text-sm border-t border-slate-200">
+        <p class="text-slate-500">
+          Showing {{ startIndex() }}–{{ endIndex() }} of {{ filtered().length }}
+        </p>
+        <div class="flex items-center gap-1">
+          <button class="rounded-xl border border-slate-200 bg-white px-3 py-2" (click)="prev()">«</button>
+          <button class="rounded-xl border border-slate-200 bg-white px-3 py-2" [class.bg-slate-900]="page()===1" [class.text-white]="page()===1" (click)="goto(1)">1</button>
+          <button class="rounded-xl border border-slate-200 bg-white px-3 py-2" [class.bg-slate-900]="page()===2" [class.text-white]="page()===2" (click)="goto(2)">2</button>
+          <button class="rounded-xl border border-slate-200 bg-white px-3 py-2" [class.bg-slate-900]="page()===3" [class.text-white]="page()===3" (click)="goto(3)">3</button>
+          <button class="rounded-xl border border-slate-200 bg-white px-3 py-2" (click)="next()">»</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Edit Modal -->
+<div *ngIf="editOpen()" class="fixed inset-0 z-50">
+  <div class="absolute inset-0 bg-black/40" (click)="onCancelEdit()"></div>
+  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] max-w-[92vw] bg-white rounded-2xl shadow-xl border border-slate-200">
+    <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+      <h3 class="font-semibold">Edit order {{ editCode() }}</h3>
+      <button class="text-slate-500 hover:text-slate-800" (click)="onCancelEdit()">✕</button>
+    </div>
+
+    <div class="p-5 space-y-4 text-sm">
+      <div class="grid grid-cols-4 items-center gap-3">
+        <label class="text-slate-600">Name</label>
+        <input class="col-span-3 rounded-lg border border-slate-200 px-3 py-2" [ngModel]="editName()" (ngModelChange)="editName.set($event)" />
+      </div>
+      <div class="grid grid-cols-4 items-center gap-3">
+        <label class="text-slate-600">Address</label>
+        <input class="col-span-3 rounded-lg border border-slate-200 px-3 py-2" [ngModel]="editAddress()" (ngModelChange)="editAddress.set($event)" />
+      </div>
+      <div class="grid grid-cols-4 items-center gap-3">
+        <label class="text-slate-600">Date</label>
+        <input type="date" class="col-span-3 rounded-lg border border-slate-200 px-3 py-2" [ngModel]="editDate()" (ngModelChange)="editDate.set($event)" />
+      </div>
+      <div class="grid grid-cols-4 items-center gap-3">
+        <label class="text-slate-600">Price</label>
+        <input type="number" min="0" step="0.01" class="col-span-3 rounded-lg border border-slate-200 px-3 py-2" [ngModel]="editPrice()" (ngModelChange)="editPrice.set($event)" />
+      </div>
+      <div class="grid grid-cols-4 items-center gap-3">
+        <label class="text-slate-600">Status</label>
+        <select class="col-span-3 rounded-lg border border-slate-200 px-3 py-2" [ngModel]="editStatus()" (ngModelChange)="editStatus.set($event)">
+          <option value="Pending">Pending</option>
+          <option value="Dispatch">Dispatch</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="px-5 py-4 border-t border-slate-200 flex items-center justify-end gap-2">
+      <button class="rounded-lg border border-slate-200 bg-white px-4 py-2" (click)="onCancelEdit()">Cancel</button>
+      <button class="rounded-lg bg-slate-900 text-white px-4 py-2" (click)="onSaveEdit()">Save</button>
+    </div>
+  </div>
+</div>

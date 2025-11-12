@@ -1,0 +1,206 @@
+<div class="min-h-screen  bg-[#e5e7f3] flex items-center justify-center">
+  <div class="w-full  bg-white rounded-[32px] shadow-[0_24px_80px_rgba(15,23,42,0.18)] overflow-hidden flex">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-gradient-to-b from-[#f3e3ff] via-[#f7f0ff] to-[#ffeef2] border-r border-white/60 flex flex-col">
+      <div class="px-6 pt-6 pb-4 flex items-center gap-2">
+        <div class="w-9 h-9 rounded-2xl bg-indigo-500 text-white grid place-items-center font-semibold">w</div>
+        <div class="font-semibold text-slate-900 text-sm">weihu</div>
+      </div>
+
+      <nav class="px-3 mt-3 space-y-6 text-xs text-slate-500">
+        <div>
+          <p class="uppercase tracking-[0.2em] text-[10px] text-slate-400 mb-2">TASKS</p>
+          <button
+            class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl bg-white text-indigo-600 font-medium shadow-sm"
+            (click)="onNav('Tasks')">
+            <span class="text-lg">✅</span><span class="text-xs">Tasks</span>
+            <span class="ml-auto text-[10px] bg-indigo-500 text-white rounded-full px-2 py-0.5">{{ totalTasks() }}</span>
+          </button>
+          <button
+            class="mt-1 w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+            (click)="onNav('Activities')">
+            <span class="text-lg">⚡</span><span class="text-xs">Activities</span>
+          </button>
+        </div>
+
+        <div>
+          <p class="uppercase tracking-[0.2em] text-[10px] text-slate-400 mb-1">MAIN</p>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Dashboard')"><span>📊</span><span>Dashboard</span></button>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Schedule')"><span>📅</span><span>Schedule</span></button>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Note')"><span>📝</span><span>Note</span></button>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Products')"><span>📦</span><span>Products</span></button>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Report')"><span>📈</span><span>Report</span></button>
+        </div>
+
+        <div>
+          <p class="uppercase tracking-[0.2em] text-[10px] text-slate-400 mb-1">RECORDS</p>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Team')"><span>👥</span><span>Team</span></button>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Clients')"><span>👤</span><span>Clients</span></button>
+        </div>
+
+        <div>
+          <p class="uppercase tracking-[0.2em] text-[10px] text-slate-400 mb-1">SUPPORT</p>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onSettingsClick()"><span>⚙️</span><span>Settings</span></button>
+          <button class="w-full flex items-center gap-3 px-3 py-2 rounded-2xl hover:bg-white/60"
+                  (click)="onNav('Support')"><span>❓</span><span>Support</span></button>
+        </div>
+      </nav>
+
+      <div class="mt-auto p-4 border-t border-white/60">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-slate-900 text-white grid place-items-center text-xs font-semibold">BS</div>
+          <div>
+            <p class="text-xs font-semibold text-slate-900 leading-tight">Brooklyn Simmons</p>
+            <p class="text-[10px] text-slate-400">brooklyncom</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 flex flex-col bg-gradient-to-br from-white via-[#f8fbff] to-[#fef6ff]">
+
+      <!-- TOP BAR -->
+      <header class="h-16 border-b border-slate-100/70 flex items-center px-6 gap-4">
+        <div class="flex flex-col">
+          <span class="text-[11px] text-slate-400">Welcome,</span>
+          <span class="text-sm font-semibold text-slate-900">Brooklyn Simmons</span>
+        </div>
+
+        <div class="flex-1 flex justify-center">
+          <div class="w-full max-w-xl relative">
+            <input
+              type="text"
+              placeholder="Find something"
+              class="w-full rounded-2xl bg-slate-50 border border-slate-200 text-xs px-9 py-2 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-300" />
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"
+                  (click)="onSearchShortcut()">🔍</span>
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] px-2 py-0.5 rounded-xl bg-white border border-slate-200 text-slate-400"
+                  (click)="onSearchShortcut()">
+              ⌘K
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button class="w-8 h-8 rounded-full bg-white border border-slate-200 grid place-items-center text-sm"
+                  (click)="onNotificationClick()">🔔</button>
+          <button class="w-8 h-8 rounded-full bg-white border border-slate-200 grid place-items-center text-sm"
+                  (click)="onSettingsClick()">⚙️</button>
+        </div>
+      </header>
+
+      <!-- BOARD HEADER -->
+      <div class="px-6 pt-4 pb-2 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] text-slate-400">May · Board</p>
+          <h1 class="text-base font-semibold text-slate-900">Daily Tasks</h1>
+          <p class="text-[10px] text-slate-400">Today is Saturday, Jul 8th, 2023</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button class="hidden md:inline-flex items-center gap-2 text-[11px] px-3 py-1.5 rounded-2xl bg-white border border-slate-200"
+                  (click)="onFilterClick()">
+            <span>Filters</span><span>▾</span>
+          </button>
+          <button class="inline-flex items-center gap-2 text-[11px] px-4 py-2 rounded-2xl bg-slate-900 text-white shadow-md"
+                  (click)="onCreateTaskMain()">
+            <span>＋</span><span>Create task</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- BOARD COLUMNS -->
+      <section class="flex-1 overflow-x-auto px-5 pb-6 pt-2">
+        <div class="flex gap-4 min-w-max">
+
+          <div
+            *ngFor="let col of columns()"
+            class="w-72 bg-white/70 border border-slate-100 rounded-[24px] p-4 shadow-[0_10px_30px_rgba(15,23,42,0.06)] flex flex-col">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                <h2 class="text-xs font-semibold text-slate-900">{{ col.title }}</h2>
+              </div>
+              <button
+                class="w-6 h-6 rounded-full bg-slate-50 grid place-items-center text-slate-400 text-xs"
+                (click)="onAddTask(col.id)">
+                ＋
+              </button>
+            </div>
+
+            <div class="space-y-3 overflow-y-auto pr-1" style="max-height: calc(100vh - 230px)">
+              <article
+                *ngFor="let card of getTasks(col.id)"
+                class="rounded-2xl bg-gradient-to-br p-3 text-[11px] shadow-[0_10px_30px_rgba(15,23,42,0.10)] cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(15,23,42,0.18)] transition"
+                [ngClass]="card.bg"
+                (click)="onEditTask(card)">
+
+                <!-- tags + delete -->
+                <div class="flex items-start justify-between mb-2">
+                  <div class="flex flex-wrap gap-1">
+                    <span
+                      *ngFor="let tag of card.tags"
+                      class="inline-flex items-center px-2 py-[2px] rounded-full bg-white/70 text-[10px] font-medium text-slate-600">
+                      {{ tag }}
+                    </span>
+                  </div>
+                  <button class="text-slate-400 hover:text-red-500 text-xs ml-1"
+                          (click)="onDeleteTask(card, $event)">✕</button>
+                </div>
+
+                <!-- title + desc -->
+                <h3 class="font-semibold text-slate-900 text-[12px] mb-1">{{ card.title }}</h3>
+                <p class="text-[10px] text-slate-600 whitespace-pre-line mb-2">{{ card.description }}</p>
+
+                              <!-- progress section -->
+                <div class="flex items-center justify-between mb-1">
+                  <div class="flex items-center gap-1">
+                    <span class="text-[10px] text-slate-600">Progress</span>
+                    <button
+                      class="text-[9px] text-slate-500 underline"
+                      (click)="onAdjustTaskMeta(card, $event)">
+                      Edit
+                    </button>
+                  </div>
+                  <span class="text-[10px] font-medium text-slate-700">
+                    {{ card.progressPercent || 0 }}%
+                  </span>
+                </div>
+
+                <!-- footer avatars + counters -->
+                <div class="flex items-center justify-between mt-1">
+                  <div class="flex -space-x-1">
+                    <div
+                      *ngFor="let p of card.people"
+                      class="w-6 h-6 rounded-full bg-white/90 border border-white text-[9px] grid place-items-center text-slate-700 font-semibold">
+                      {{ p }}
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 text-[10px] text-slate-600">
+                    <span class="flex items-center gap-1">💬 {{ card.comments || 0 }}</span>
+                    <span class="flex items-center gap-1">📎 {{ card.attachments || 0 }}</span>
+                  </div>
+                </div>
+
+                <div class="text-[9px] text-slate-500">
+  {{ card.time }}
+</div>
+              </article>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

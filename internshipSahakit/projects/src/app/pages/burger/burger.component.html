@@ -1,0 +1,677 @@
+<div class="min-h-screen bg-gray-50 text-gray-800">
+  <!-- Header -->
+  <header
+    class="sticky top-0 z-10 bg-white/80 backdrop-blur border-b border-gray-100"
+  >
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+      <div class="w-3 h-3 rounded-full bg-red-400"></div>
+      <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+      <div class="w-3 h-3 rounded-full bg-green-400"></div>
+
+      <div class="flex-1"></div>
+
+      <div class="hidden md:flex items-center gap-2 w-[520px]">
+        <div class="relative flex-1">
+          <span
+            class="pointer-events-none absolute inset-y-0 left-3 flex items-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4 text-gray-400"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M10 2a8 8 0 105.293 14.293l3.707 3.707 1.414-1.414-3.707-3.707A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"
+              />
+            </svg>
+          </span>
+
+          <input
+            [ngModel]="search()"
+            (ngModelChange)="search.set($event)"
+            (keyup.enter)="onEnterSearch($event)"
+            (keyup.escape)="clearSearch()"
+            placeholder="Search food...."
+            aria-label="Search food"
+            class="w-full border rounded-lg px-4 py-2 pl-10 pr-9 focus:ring-2 focus:ring-orange-200"
+          />
+
+          <button
+            *ngIf="search()"
+            (click)="clearSearch()"
+            class="absolute inset-y-0 right-2 my-auto h-7 w-7 rounded-full hover:bg-gray-100 grid place-items-center text-gray-400"
+            aria-label="Clear search"
+            type="button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M18.3 5.71L12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.7 2.88 18.29 9.17 12 2.88 5.71 4.29 4.3l6.3 6.3 6.29-6.3z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div #wishWrapper class="relative ml-3">
+        <button
+          (click)="toggleWishlistMenu()"
+          class="relative rounded-full px-3 py-2 text-sm hover:bg-orange-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="#D16D6A"
+            class="bi bi-heart-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+            />
+          </svg>
+          <span
+            *ngIf="wishlistCount()"
+            class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white text-xs flex items-center justify-center"
+          >
+            {{ wishlistCount() }}
+          </span>
+        </button>
+
+        <div
+          *ngIf="showWishlistMenu()"
+          class="absolute right-0 mt-2 w-72 bg-white border border-gray-100 rounded-xl shadow-lg p-3"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <p class="font-semibold text-sm">Wishlist</p>
+            <div class="flex items-center gap-3">
+              <button
+                (click)="toggleEditWishlist()"
+                class="text-xs text-gray-600 hover:text-gray-800"
+              >
+                {{ editWishlist() ? "Done" : "Edit" }}
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="max-h-72 overflow-auto no-scrollbar space-y-0.5"
+            *ngIf="wishlist().length; else emptyWish"
+          >
+            <div
+              *ngFor="let w of wishlist()"
+              class="px-2 py-2 rounded-lg hover:bg-orange-50/50"
+            >
+              <div class="flex items-center gap-3">
+                <label class="shrink-0" *ngIf="editWishlist()">
+                  <input
+                    type="checkbox"
+                    class="h-4 w-4 accent-orange-500"
+                    [checked]="isWishSelected(w.id)"
+                    (change)="toggleWishSelect(w.id)"
+                  />
+                </label>
+
+                <div
+                  class="w-12 h-12 rounded bg-orange-50 flex items-center justify-center overflow-hidden"
+                >
+                  <ng-container *ngIf="isImageSource(w.img); else wEmojiTpl">
+                    <img
+                      [src]="resolveImg(w.img!)"
+                      alt=""
+                      class="w-full h-full object-cover"
+                    />
+                  </ng-container>
+                  <ng-template #wEmojiTpl>{{ w.img || "🍔" }}</ng-template>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium truncate">{{ w.name }}</p>
+                  <p class="text-xs text-gray-500">{{ w.category }}</p>
+                </div>
+
+                <div class="text-sm font-medium tabular-nums text-right">
+                  {{ w.price | currency : "USD" : "symbol" : "1.0-0" }}
+                </div>
+              </div>
+
+              <div class="mt-2 flex justify-end gap-2" *ngIf="!editWishlist()">
+                <button
+                  (click)="addToCart(w)"
+                  class="text-xs px-3 py-1.5 rounded bg-orange-500 text-white"
+                >
+                  Add
+                </button>
+                <button
+                  (click)="toggleWishlist(w)"
+                  class="text-xs text-red-500 hover:underline"
+                >
+                  remove
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #emptyWish>
+            <p class="text-sm text-gray-500">No items in wishlist yet.</p>
+          </ng-template>
+
+          <div
+            *ngIf="editWishlist()"
+            class="sticky bottom-0 left-0 right-0 mt-2 bg-white border-t border-gray-100 pt-2"
+          >
+            <div class="flex items-center justify-between">
+              <div class="text-xs text-gray-600">
+                Selected:
+                <span class="font-medium">{{ selectedWish().size }}</span>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  (click)="selectAllWishlist()"
+                  class="text-xs px-3 py-1.5 rounded border"
+                >
+                  all
+                </button>
+                <button
+                  (click)="clearWishlistAll()"
+                  class="text-xs px-3 py-1.5 text-black rounded border"
+                  [disabled]="!wishlist().length"
+                >
+                  Clear
+                </button>
+                <button
+                  (click)="removeSelectedWishlist()"
+                  class="text-xs px-3 py-1.5 rounded bg-red-500 text-white disabled:opacity-50"
+                  [disabled]="selectedWish().size === 0"
+                >
+                  Delete ({{ selectedWish().size }})
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #emptyWish>
+            <p class="text-sm text-gray-500">No items in wishlist yet.</p>
+          </ng-template>
+        </div>
+      </div>
+      <div #ordersWrapper class="relative ml-2">
+        <button
+          (click)="toggleOrdersMenu()"
+          class="relative rounded-full px-3 py-2 text-sm hover:bg-orange-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-receipt"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"
+            />
+            <path
+              d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"
+            />
+          </svg>
+          <span
+            *ngIf="orders().length"
+            class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-slate-700 text-white text-xs flex items-center justify-center"
+          >
+            {{ orders().length }}
+          </span>
+        </button>
+
+        <div
+          *ngIf="showOrdersMenu()"
+          class="absolute right-0 mt-2 w-96 bg-white border border-gray-100 rounded-xl shadow-lg p-4"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-semibold text-sm">Order History</h4>
+          </div>
+
+          <ng-container *ngIf="orders().length; else noOrdersOH">
+            <div class="max-h-96 overflow-auto no-scrollbar space-y-4">
+              <div
+                *ngFor="let o of orders()"
+                class="border border-gray-100 rounded-xl shadow-sm"
+              >
+                <div
+                  class="flex justify-between items-center px-3 py-2 bg-gray-50 border-b border-gray-100 rounded-t-xl"
+                >
+                  <div>
+                    <p class="text-sm font-semibold">{{ o.id }}</p>
+                    <p class="text-xs text-gray-500">
+                      {{ formatDate(o.createdAt) }}
+                    </p>
+                  </div>
+                  <button
+                    (click)="removeOrder(o.id)"
+                    class="text-xs text-red-500 hover:underline"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-trash3-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                <div
+                  class="max-h-60 overflow-auto no-scrollbar divide-y divide-gray-100"
+                >
+                  <div
+                    *ngFor="let it of o.items"
+                    class="flex items-center justify-between px-3 py-2"
+                  >
+                    <div class="flex items-center gap-3 min-w-0">
+                      <div
+                        class="w-8 h-8 rounded bg-orange-50 flex items-center justify-center overflow-hidden"
+                      >
+                        <ng-container
+                          *ngIf="isImageSource(it.img); else emojiTpl"
+                        >
+                          <img
+                            [src]="resolveImg(it.img!)"
+                            class="w-full h-full object-cover"
+                          />
+                        </ng-container>
+                        <ng-template #emojiTpl>{{
+                          it.img || "🍔"
+                        }}</ng-template>
+                      </div>
+                      <div class="min-w-0">
+                        <p class="text-sm truncate">{{ it.name }}</p>
+                        <p class="text-xs text-gray-500">× {{ it.quantity }}</p>
+                      </div>
+                    </div>
+                    <div class="text-xs text-gray-600 bill-num w-24">
+                      <div>
+                        {{ it.price | currency : "USD" : "symbol" : "1.0-0" }}
+                      </div>
+                      <div class="font-medium text-gray-800">
+                        {{
+                          it.price * it.quantity
+                            | currency : "USD" : "symbol" : "1.0-0"
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="border-t border-gray-100 px-3 py-2 text-sm space-y-1 bg-gray-50 rounded-b-xl"
+                >
+                  <div class="flex justify-between text-gray-600">
+                    <span>Subtotal</span>
+                    <span class="bill-num">{{
+                      o.subTotal | currency : "USD" : "symbol" : "1.0-0"
+                    }}</span>
+                  </div>
+                  <div class="flex justify-between text-gray-600">
+                    <span>Tax</span>
+                    <span class="bill-num">{{
+                      o.tax | currency : "USD" : "symbol" : "1.0-0"
+                    }}</span>
+                  </div>
+                  <div
+                    class="flex justify-between font-semibold text-orange-600"
+                  >
+                    <span>Total</span>
+                    <span class="bill-num">{{
+                      o.total | currency : "USD" : "symbol" : "1.0-0"
+                    }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #noOrdersOH>
+            <p class="text-sm text-gray-500">No orders yet.</p>
+          </ng-template>
+        </div>
+      </div>
+
+      <div class="ml-auto flex items-center gap-3">
+        <span class="text-sm text-gray-500 hidden sm:inline">David Brown</span>
+        <img
+          class="w-9 h-9 rounded-full"
+          src="https://i.pravatar.cc/72?img=12"
+          alt=""
+        />
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-12 gap-6">
+    <aside class="col-span-12 md:col-span-3 lg:col-span-2">
+      <div class="bg-white rounded-2xl border border-gray-100 p-4">
+        <div class="flex items-center gap-2 mb-4">
+          <div
+            class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center"
+          >
+            <span class="text-orange-500 font-bold"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#000000"
+              >
+                <path
+                  d="M160-120q-33 0-56.5-23.5T80-200v-120h800v120q0 33-23.5 56.5T800-120H160Zm0-120v40h640v-40H160Zm320-180q-36 0-57 20t-77 20q-56 0-76-20t-56-20q-36 0-57 20t-77 20v-80q36 0 57-20t77-20q56 0 76 20t56 20q36 0 57-20t77-20q56 0 77 20t57 20q36 0 56-20t76-20q56 0 79 20t55 20v80q-56 0-75-20t-55-20q-36 0-58 20t-78 20q-56 0-77-20t-57-20ZM80-560v-40q0-115 108.5-177.5T480-840q183 0 291.5 62.5T880-600v40H80Zm400-200q-124 0-207.5 31T166-640h628q-23-58-106.5-89T480-760Zm0 520Zm0-400Z"
+                />
+              </svg>
+            </span>
+          </div>
+          <span class="font-semibold text-lg text-orange-600">foodislice</span>
+        </div>
+
+        <nav class="space-y-1 text-sm">
+          <button
+            class="w-full text-left px-4 py-2 rounded-lg bg-orange-50 text-orange-700"
+          >
+            Dashboard
+          </button>
+          <button
+            class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50"
+          >
+            Food Order
+          </button>
+          <button
+            class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50"
+          >
+            Feedback
+          </button>
+          <button
+            class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50"
+          >
+            Message
+          </button>
+          <button
+            class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50"
+          >
+            Order History
+          </button>
+          <button
+            class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50"
+          >
+            Payment details
+          </button>
+          <button
+            class="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-50"
+          >
+            Customization
+          </button>
+        </nav>
+
+        <div class="mt-6 p-3 rounded-xl bg-gray-50">
+          <p class="text-xs text-gray-500">How to order food?</p>
+          <p class="text-[11px] text-gray-400 mt-1">
+            Ordering from our web app is seamless and delightful.
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="col-span-12 md:col-span-6 lg:col-span-7">
+      <div class="md:hidden mb-4 flex gap-2">
+        <input
+          [ngModel]="search()"
+          (ngModelChange)="search.set($event)"
+          placeholder="Search food"
+          class="flex-1 border rounded-lg px-4 py-2 focus:ring-2 focus:ring-orange-200"
+        />
+        <button class="px-4 rounded-lg bg-orange-500 text-white">Filter</button>
+      </div>
+
+      <section class="bg-white rounded-2xl border border-gray-100 p-4">
+        <p class="font-semibold mb-3">Explore Categories</p>
+        <div class="flex flex-wrap gap-2">
+          <button
+            *ngFor="let c of categories()"
+            (click)="selectedCategory.set(c)"
+            [class]="categoryClass(c)"
+          >
+            <span class="mr-2">{{ categoryIcon(c) }}</span
+            >{{ c }}
+          </button>
+        </div>
+      </section>
+
+      <section class="mt-6">
+        <div class="flex items-center gap-4 mb-3">
+          <h3 class="font-semibold">Popular</h3>
+          <button class="text-sm text-gray-500 hover:text-gray-700">
+            Recent
+          </button>
+        </div>
+
+        <ng-container *ngIf="foods().length; else noResults">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div
+              *ngFor="let f of foods()"
+              class="rounded-2xl bg-white border border-gray-100 p-4 shadow-sm hover:shadow-md transition"
+            >
+              <div class="flex justify-between items-start">
+                <div
+                  class="w-48 h-48 bg-orange-50 rounded-xl flex items-center justify-center text-4xl overflow-hidden"
+                >
+                  <ng-container *ngIf="isImageSource(f.img); else emojiTpl">
+                    <img
+                      [src]="resolveImg(f.img!)"
+                      alt=""
+                      class="w-full h-full object-cover"
+                    />
+                  </ng-container>
+                  <ng-template #emojiTpl>{{ f.img || "🍔" }}</ng-template>
+                </div>
+
+                <div
+                  *ngIf="isInCart(f.id)"
+                  class="h-6 w-6 rounded bg-orange-100 text-orange-600 flex items-center justify-center text-xs absolute"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-check-lg"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              <p class="mt-3 font-semibold">{{ f.name }}</p>
+
+              <div class="flex items-center gap-2 mt-1">
+                <span class="text-orange-600 font-bold text-lg">
+                  {{ f.price | currency : "USD" : "symbol" : "1.0-0" }}
+                </span>
+                <span
+                  *ngIf="f.oldPrice"
+                  class="text-gray-400 line-through text-sm"
+                >
+                  {{ f.oldPrice | currency : "USD" }}
+                </span>
+                <span class="ml-auto text-xs text-amber-500"
+                  >★ {{ f.rating?.toFixed(1) || "2.5" }}k+</span
+                >
+              </div>
+
+              <div class="mt-3 flex gap-2">
+                <button
+                  (click)="toggleWishlist(f)"
+                  [class]="
+                    isInWishlist(f.id)
+                      ? 'flex-1 border rounded-lg py-2 bg-red-50 border-red-200 text-red-600'
+                      : 'flex-1 border rounded-lg py-2 hover:bg-gray-50'
+                  "
+                >
+                  {{ isInWishlist(f.id) ? "♥ Wishlisted" : "♡ Wishlist" }}
+                </button>
+                <button
+                  (click)="addToCart(f)"
+                  class="flex-1 bg-orange-500 text-white rounded-lg py-2 hover:bg-orange-600"
+                >
+                  Order Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noResults>
+          <div
+            class="rounded-2xl border border-dashed border-gray-200 bg-white p-10"
+          >
+            <div
+              class="flex flex-col md:flex-row items-center md:items-start gap-8"
+            >
+              <div
+                class="w-44 h-32 rounded-xl grid place-content-center text-gray-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="80px"
+                  viewBox="0 -960 960 960"
+                  width="80px"
+                  fill="#666666"
+                >
+                  <path
+                    d="M838-80 728-190q-21 17-46.5 23.5T630-160q-70.83 0-120.42-49.62Q460-259.24 460-330.12t49.62-120.38q49.62-49.5 120.5-49.5t120.38 49.58Q800-400.83 800-330q0 26-6.5 52T770-232l110 110-42 42ZM629.86-220Q676-220 708-251.86t32-78Q740-376 708.14-408t-78-32Q584-440 552-408.14t-32 78Q520-284 551.86-252t78 32ZM840-530h-60v-250h-60v90H240v-90h-60v600h250v60H180q-26 0-43-17t-17-43v-600q0-26 17-43t43-17h202q7-35 34.5-57.5T480-920q36 0 63.5 22.5T578-840h202q26 0 43 17t17 43v250ZM480-780q17 0 28.5-11.5T520-820q0-17-11.5-28.5T480-860q-17 0-28.5 11.5T440-820q0 17 11.5 28.5T480-780Z"
+                  />
+                </svg>
+              </div>
+
+              <div class="text-center md:text-left">
+                <h3 class="text-2xl font-semibold text-gray-700">
+                  No Results Found
+                </h3>
+                <p class="text-sm text-gray-500 mt-1">
+                  Suggestions to help you get better results:
+                </p>
+                <ul class="mt-3 text-sm text-gray-600 space-y-1 list-disc pl-5">
+                  <li>Make sure all words are spelled correctly.</li>
+                  <li>Try using different keywords.</li>
+                  <li>Use more general or broader keywords.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </section>
+    </main>
+
+    <aside class="col-span-12 md:col-span-3 lg:col-span-3">
+      <div class="bg-white rounded-2xl border border-gray-100 p-4">
+        <h3 class="font-semibold mb-3">Invoice</h3>
+
+        <div *ngIf="cart().length === 0" class="text-sm text-gray-500">
+          No items selected.
+        </div>
+
+        <div
+          *ngFor="let item of cart()"
+          class="flex items-center justify-between py-2"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center text-lg overflow-hidden"
+            >
+              <ng-container *ngIf="isImageSource(item.img); else iEmojiTpl">
+                <img
+                  [src]="resolveImg(item.img!)"
+                  alt=""
+                  class="w-full h-full object-cover"
+                />
+              </ng-container>
+              <ng-template #iEmojiTpl>{{ item.img || "🍔" }}</ng-template>
+            </div>
+
+            <div>
+              <p class="text-sm font-medium">{{ item.name }}</p>
+              <div class="flex items-center gap-1 text-sm">
+                <button
+                  (click)="decreaseQty(item.id)"
+                  class="px-2 py-0.5 rounded"
+                >
+                  −
+                </button>
+                <span>{{ item.quantity }}</span>
+                <button
+                  (click)="increaseQty(item.id)"
+                  class="px-2 py-0.5 rounded"
+                >
+                  +
+                </button>
+              </div>
+              <button
+                (click)="removeFromCart(item.id)"
+                class="text-xs text-red-500 mt-1"
+              >
+                remove
+              </button>
+            </div>
+          </div>
+          <div class="font-semibold">
+            {{
+              item.price * item.quantity | currency : "USD" : "symbol" : "1.0-0"
+            }}
+          </div>
+        </div>
+
+        <hr class="my-3" />
+
+        <div class="space-y-1 text-sm">
+          <div class="flex justify-between text-gray-600">
+            <span>Sub Total</span
+            ><span>{{ subTotal() | currency : "USD" : "symbol" }}</span>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>Tax</span
+            ><span>{{ taxAmount() | currency : "USD" : "symbol" }}</span>
+          </div>
+          <div class="flex justify-between font-semibold">
+            <span>Total Payment</span
+            ><span class="text-orange-600">{{
+              totalPayment() | currency : "USD" : "symbol"
+            }}</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 mt-4">
+          <span class="px-2 py-1 border rounded">Mastercard</span>
+          <span class="px-2 py-1 border rounded">PayPal</span>
+          <span class="px-2 py-1 border rounded">VISA</span>
+        </div>
+
+        <button
+          (click)="placeOrder()"
+          class="mt-4 w-full py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600"
+        >
+          Place An Order Now
+        </button>
+      </div>
+    </aside>
+  </div>
+</div>

@@ -1,0 +1,448 @@
+<!-- DASHBOARD LAYOUT -->
+<div class="min-h-screen  bg-[#f6f7fb] text-gray-800">
+
+  <!-- Topbar -->
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-gray-100">
+    <div class="max-w-full mx-auto px-4 lg:px-6 h-14 flex items-center gap-3">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 grid place-items-center rounded-lg bg-orange-500 text-white font-bold">HR</div>
+        <span class="font-semibold">HRMate</span>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm ml-6">
+        <a class="font-medium text-orange-500" href="#">Dashboard</a>
+        <a class="text-gray-500 hover:text-gray-900" href="#">Schedule</a>
+        <a class="text-gray-500 hover:text-gray-900" href="#">Payroll</a>
+        <a class="text-gray-500 hover:text-gray-900" href="#">Employees</a>
+      </nav>
+
+      <!-- Search -->
+      <div class="ml-auto w-full max-w-md">
+        <label class="relative block">
+          <input type="text" placeholder="Search employee, job, etc"
+                 class="w-full h-10 pl-10 pr-10 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" viewBox="0 0 24 24" fill="currentColor"><path d="M10 18a8 8 0 1 1 5.293-14.001l4.854 4.854-1.414 1.414-4.854-4.854A6 6 0 1 0 10 16a5.964 5.964 0 0 0 3.873-1.4l1.442 1.44A7.963 7.963 0 0 1 10 18z"/></svg>
+        </label>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-3 ml-3">
+        <button class="w-9 h-9 grid place-items-center rounded-full bg-gray-50 border border-gray-200">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
+            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+            </svg>
+        </button>
+        <button class="w-9 h-9 grid place-items-center rounded-full bg-gray-50 border border-gray-200">
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear-fill" viewBox="0 0 16 16">
+        <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/>
+        </svg> 
+        </button>
+        <img class="w-9 h-9 rounded-full" src="https://i.pravatar.cc/80?img=5" alt="">
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="max-w-full mx-auto px-4 lg:px-6 py-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
+
+    <!-- LEFT MAIN -->
+    <section class="space-y-6">
+
+      <!-- Greeting + KPIs row -->
+     <!-- Greeting + KPIs wrapped in blue pill -->
+<div class="rounded-3xl bg-[#BFE8FF] p-4 md:p-5">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-stretch">
+
+    <div class=" p-4 md:p-5">
+      <p class="text-xs text-gray-700/80">Wednesday, June 15, 2027</p>
+      <h2 class="mt-2 text-2xl font-semibold text-gray-900">Hello, Matt! 👋</h2>
+      <p class="text-sm text-gray-700/80">Track &amp; manage your team progress here.</p>
+    </div>
+
+    <!-- KPI card 1 -->
+    <div class="rounded-2xl bg-white/95 backdrop-blur-sm shadow-md ring-1 ring-black/5 p-4">
+      <div class="flex items-center justify-between">
+        <span class="w-8 h-8 grid place-items-center rounded-lg bg-orange-500 text-white">
+          <!-- icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+            <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+          </svg>
+        </span>
+        <span class="w-8 h-8 grid place-items-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+          </svg>
+        </span>
+      </div>
+      <p class="mt-2 text-2xl font-bold text-gray-900">1,242</p>
+      <span class="text-sm text-gray-500">Total Employees</span>
+    </div>
+
+    <!-- KPI card 2 -->
+    <div class="rounded-2xl bg-white/95 backdrop-blur-sm shadow-md ring-1 ring-black/5 p-4">
+      <div class="flex items-center justify-between">
+        <span class="w-8 h-8 grid place-items-center rounded-lg bg-orange-500 text-white">
+          <!-- icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+        </span>
+        <span class="w-8 h-8 grid place-items-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+          </svg>
+        </span>
+      </div>
+      <p class="mt-2 text-2xl font-bold text-gray-900">32%</p>
+      <span class="text-sm text-gray-500">Turnover Rate</span>
+    </div>
+
+    <!-- KPI card 3 -->
+    <div class="rounded-2xl bg-white/95 backdrop-blur-sm shadow-md ring-1 ring-black/5 p-4">
+      <div class="flex items-center justify-between">
+        <span class="w-8 h-8 grid place-items-center rounded-lg bg-orange-500 text-white">
+          <!-- icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20" fill="currentColor">
+            <path d="M612-516q25 0 42.5-17.5T672-576q0-25-17.5-42.5T612-636q-25 0-42.5 17.5T552-576q0 25 17.5 42.5T612-516Zm-264 0q25 0 42.5-17.5T408-576q0-25-17.5-42.5T348-636q-25 0-42.5 17.5T288-576q0 25 17.5 42.5T348-516Zm132 228q60 0 110.5-31t79.5-84H290q29 53 79.5 84T480-288Z"/>
+          </svg>
+        </span>
+        <span class="w-8 h-8 grid place-items-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 16">
+            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+          </svg>
+        </span>
+      </div>
+      <p class="mt-2 text-2xl font-bold text-gray-900">78%</p>
+      <span class="text-sm text-gray-500">Happiness Rate</span>
+    </div>
+
+  </div>
+</div>
+
+
+      <!-- Charts row -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Line KPI -->
+        <div class="rounded-2xl bg-white border border-gray-100 p-4">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h4 class="font-semibold">Average Team KPI</h4>
+              <h2 class="text-2xl font-bold text-gray-900">85.45%</h2> 
+              <p class="text-xs text-gray-500">Last month: 80.9%</p>
+            </div>
+            <select class="text-xs bg-gray-50 border border-gray-200 rounded-lg px-2 py-1">
+              <option>Monthly</option><option>Weekly</option>
+            </select>
+          </div>
+          <!-- Placeholder chart -->
+          <div class="rounded-2xl bg-white border border-gray-100 p-4 h-56">
+            <canvas #kpiLine></canvas>
+        </div>
+        </div>
+
+        <!-- Attendance Overview -->
+        <div class="rounded-2xl bg-white border border-gray-100 p-4">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="font-semibold">Attendance Overview</h4>
+            <div class="text-xs text-gray-500">7 – 15 June</div>
+          </div>
+          <div class="rounded-2xl bg-white border border-gray-100 p-4 h-56">
+            <canvas #attBar></canvas>
+        </div>
+        </div>
+      </div>
+
+      <!-- Bottom grids -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Tasks -->
+        <div class="rounded-2xl bg-white border border-gray-100 p-4">
+  <div class="flex items-center justify-between mb-3">
+    <h4 class="font-semibold">Tasks</h4>
+    <button class="w-8 h-8 grid place-items-center rounded-full text-gray-400 hover:bg-gray-50">
+      <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"><path d="M6 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm6 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm6 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/></svg>
+    </button>
+  </div>
+
+  <ul class="space-y-2 text-sm">
+    <!-- item 1 -->
+    <li class="flex items-center justify-between p-3 rounded-xl bg-white border border-gray-100 hover:bg-gray-50">
+      <div>
+        <p class="font-medium text-gray-900">Update Employee Handbook</p>
+        <p class="text-xs text-gray-500">Policy Development · Jun 15, 2027</p>
+      </div>
+
+      <!-- วงแหวน 45% -->
+      <div class="relative grid place-items-center w-8 h-8 shrink-0 rounded-full
+                  bg-[conic-gradient(#fb923c_var(--p),#e5e7eb_0)]"
+           style="--p:45%;" aria-label="45% complete" role="img">
+        <div class="absolute w-7 h-7 rounded-full bg-white"></div>
+        <span class="text-[10px] font-semibold text-orange-500 leading-none z-10">45%</span>
+      </div>
+    </li>
+
+    <!-- item 2 -->
+    <li class="flex items-center justify-between p-3 rounded-xl bg-white border border-gray-100 hover:bg-gray-50">
+      <div>
+        <p class="font-medium text-gray-900">Finalize Quarterly Budget Review</p>
+        <p class="text-xs text-gray-500">Financial Analysis · May 30, 2027</p>
+      </div>
+
+      <!-- วงแหวน 68% -->
+      <div class="relative grid place-items-center w-8 h-8 shrink-0 rounded-full
+                  bg-[conic-gradient(#fb923c_var(--p),#e5e7eb_0)]"
+           style="--p:68%;" aria-label="68% complete" role="img">
+        <div class="absolute w-7 h-7 rounded-full bg-white"></div>
+        <span class="text-[10px] font-semibold text-orange-500 leading-none z-10">68%</span>
+      </div>
+    </li>
+
+    <!-- item 3 -->
+    <li class="flex items-center justify-between p-3 rounded-xl bg-white border border-gray-100 hover:bg-gray-50">
+      <div>
+        <p class="font-medium text-gray-900">Launch New Product Line</p>
+        <p class="text-xs text-gray-500">Marketing · Jul 1, 2027</p>
+      </div>
+
+      <!-- วงแหวน 0% (เป็นแค่วงเทา) -->
+      <div class="relative grid place-items-center w-8 h-8 shrink-0 rounded-full
+                  bg-[conic-gradient(#fb923c_0%,#e5e7eb_0)]"
+           aria-label="0% complete" role="img">
+        <div class="absolute w-7 h-7 rounded-full bg-white"></div>
+        <span class="text-[10px] font-semibold text-gray-400 leading-none z-10">0%</span>
+      </div>
+    </li>
+    <li class="flex items-center justify-between p-3 rounded-xl bg-white border border-gray-100 hover:bg-gray-50">
+      <div>
+        <p class="font-medium text-gray-900">Update Server Product </p>
+        <p class="text-xs text-gray-500">Marketing · Jul 1, 2027</p>
+      </div>
+
+      <!-- วงแหวน 0% (เป็นแค่วงเทา) -->
+      <div class="relative grid place-items-center w-8 h-8 shrink-0 rounded-full
+                  bg-[conic-gradient(#fb923c_15%,#e5e7eb_0)]"
+           aria-label="0% complete" role="img">
+        <div class="absolute w-7 h-7 rounded-full bg-white"></div>
+        <span class="text-[10px] font-semibold text-orange-500 leading-none z-10">15%</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+        <!-- Employee Satisfaction -->
+        <div class="rounded-2xl bg-white border border-gray-100 p-4">
+          <h4 class="font-semibold mb-3">Employee Satisfaction</h4>
+          <div class="h-40 rounded-xl bg-gradient-to-b from-gray-50 to-white border border-dashed border-gray-200 grid place-items-center text-gray-400 text-sm">
+            <canvas #npsGauge></canvas>
+        </div>
+          <div class="space-y-3 text-[13px]">
+  <!-- รายการ 1 -->
+  <div class="grid grid-cols-[1fr_auto] items-center gap-4">
+    <div>
+      <div class="font-medium text-gray-800">Work Environment</div>
+      <div class="text-[11px] text-gray-400">70 - 85</div>
+    </div>
+    <!-- track + marker -->
+    <div class="relative w-40 h-2.5 bg-gray-100 rounded-full">
+      <!-- ปักหมุดค่า %: left:47% และให้ชิ้นมีความกว้างเล็กน้อย -->
+      <div class="absolute top-0 left-[73%] -translate-x-1/2 h-2.5 w-8 bg-sky-300/70 rounded-full"></div>
+    </div>
+  </div>
+
+  <!-- รายการ 2 -->
+  <div class="grid grid-cols-[1fr_auto] items-center gap-4">
+    <div>
+      <div class="font-medium text-gray-800">Compensation & Benefits</div>
+      <div class="text-[11px] text-gray-400">60 - 70</div>
+    </div>
+    <div class="relative w-40 h-2.5 bg-gray-100 rounded-full">
+      <div class="absolute top-0 left-[62%] -translate-x-1/2 h-2.5 w-8 bg-sky-300/70 rounded-full"></div>
+    </div>
+  </div>
+
+  <!-- รายการ 3 -->
+  <div class="grid grid-cols-[1fr_auto] items-center gap-4">
+    <div>
+      <div class="font-medium text-gray-800">Professional Development</div>
+      <div class="text-[11px] text-gray-400">50 - 60</div>
+    </div>
+    <div class="relative w-40 h-2.5 bg-gray-100 rounded-full">
+      <div class="absolute top-0 left-[53%] -translate-x-1/2 h-2.5 w-8 bg-sky-300/70 rounded-full"></div>
+    </div>
+  </div>
+</div>
+
+        </div>
+
+        <!-- Employment Status -->
+        <div class="rounded-2xl bg-white border border-gray-100 p-4">
+          <h4 class="font-semibold mb-3">Employment Status</h4>
+          <div class="h-40 rounded-xl bg-gradient-to-b from-gray-50 to-white border border-dashed border-gray-200 grid place-items-center text-gray-400 text-sm">
+            <canvas #empPie></canvas>
+          </div>
+          <div class="space-y-2 text-[13px]">
+  <!-- Permanent -->
+  <div class="flex items-center justify-between mt-10">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-orange-500"></span>
+      <span class="font-medium text-gray-800">
+        Permanent
+        <span class="text-gray-400 font-normal">(47%)</span>
+      </span>
+    </div>
+    <span class="tabular-nums text-gray-700">584</span>
+  </div>
+
+  <!-- Contract -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-rose-400"></span>
+      <span class="font-medium text-gray-800">
+        Contract
+        <span class="text-gray-400 font-normal">(25%)</span>
+      </span>
+    </div>
+    <span class="tabular-nums text-gray-700">312</span>
+  </div>
+
+  <!-- Intern -->
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2 h-2 rounded-full bg-sky-400"></span>
+      <span class="font-medium text-gray-800">
+        Intern
+        <span class="text-gray-400 font-normal">(8%)</span>
+      </span>
+    </div>
+    <span class="tabular-nums text-gray-700">98</span>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="space-y-6 lg:sticky lg:top-16">
+
+      <!-- Promo card -->
+   <div class="flex items-center gap-4 rounded-2xl bg-[#E6F3FF] border border-blue-100 p-5 shadow-sm">
+  <!-- รูป -->
+  <div class="flex-shrink-0 overflow-hidden rounded-xl w-24 h-28 md:w-28 md:h-32">
+    <img src="bread.jpg" alt="Icon" class="w-full h-full object-cover">
+  </div>
+
+  <!-- เนื้อหา -->
+  <div class="flex-1">
+    <h3 class="text-sm font-semibold text-gray-900">Unlock New Features!</h3>
+    <p class="text-xs text-gray-600 mt-1">
+      Dive into our advanced analytics and customizable reports—designed to streamline your HR tasks.
+    </p>
+    <button class="mt-3 inline-flex items-center px-4 h-9 rounded-xl bg-orange-500 text-white text-sm font-medium hover:bg-orange-600">
+      Upgrade Now
+    </button>
+  </div>
+</div>
+
+      <!-- Calendar -->
+      <div class="rounded-2xl bg-white border border-gray-100 p-4">
+        <div class="flex items-center justify-between mb-3">
+          <h4 class="font-semibold">Schedule</h4>
+          <a class="text-xs text-gray-500" href="#">See All</a>
+        </div>
+        <div class="text-center text-sm text-gray-700 mb-2">June 2027</div>
+        <div class="grid grid-cols-7 text-center text-[11px] text-gray-400">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+        <div class="mt-1 grid grid-cols-7 gap-1 text-center text-xs">
+          <!-- quick static calendar sample -->
+          <span class="py-1 text-gray-300">28</span><span class="py-1 text-gray-300">29</span><span class="py-1 text-gray-300">30</span><span class="py-1">1</span><span class="py-1">2</span><span class="py-1">3</span><span class="py-1">4</span>
+          <span class="py-1">5</span><span class="py-1">6</span><span class="py-1">7</span><span class="py-1">8</span><span class="py-1">9</span><span class="py-1">10</span><span class="py-1">11</span>
+          <span class="py-1">12</span><span class="py-1">13</span><span class="py-1 ">14</span><span class="py-1 rounded-md bg-orange-50 text-orange-600 border border-orange-200">15</span><span class="py-1">16</span><span class="py-1">17</span><span class="py-1">18</span>
+          <span class="py-1">19</span><span class="py-1">20</span><span class="py-1">21</span><span class="py-1">22</span><span class="py-1">23</span><span class="py-1">24</span><span class="py-1">25</span>
+          <span class="py-1">26</span><span class="py-1">27</span><span class="py-1">28</span><span class="py-1">29</span><span class="py-1">30</span><span class="py-1 text-gray-300">1</span><span class="py-1 text-gray-300">2</span>
+        </div>
+      </div>
+
+      <!-- Agenda -->
+      <div class="rounded-2xl bg-white border border-gray-100 p-4 mt-10 ">
+  <h4 class="font-semibold mb-2">15 June 2027</h4>
+
+  <ul class="text-sm divide-y divide-gray-100 mb-6">
+    <!-- item -->
+    <li class="grid grid-cols-[4rem_1fr] gap-10 py-3">
+      <div class="text-right text-gray-500">
+        <div>9:00 AM</div>
+        <div class="text-[11px] text-gray-400">to 9:30 AM</div>
+      </div>
+      <div>
+        <p class="font-medium text-gray-800">Morning Briefing</p>
+        <div class="mt-1 flex flex-wrap gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] bg-blue-50 text-blue-600">All Departments</span>
+        </div>
+      </div>
+    </li>
+
+    <!-- item -->
+    <li class="grid grid-cols-[4rem_1fr] gap-10 py-3">
+      <div class="text-right text-gray-500">
+        <div>10:00 AM</div>
+        <div class="text-[11px] text-gray-400">to 11:00 AM</div>
+      </div>
+      <div>
+        <p class="font-medium text-gray-800">Project Review Meeting</p>
+        <div class="mt-1 flex flex-wrap gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] bg-rose-50 text-rose-500">Product Development</span>
+        </div>
+      </div>
+    </li>
+
+    <!-- item -->
+    <li class="grid grid-cols-[4rem_1fr] gap-10 py-3">
+      <div class="text-right text-gray-500">
+        <div>11:30 AM</div>
+        <div class="text-[11px] text-gray-400">to 12:30 PM</div>
+      </div>
+      <div>
+        <p class="font-medium text-gray-800">Marketing Strategy Session</p>
+        <div class="mt-1 flex flex-wrap gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] bg-orange-50 text-orange-500">Marketing</span>
+        </div>
+      </div>
+    </li>
+
+    <!-- item -->
+    <li class="grid grid-cols-[4rem_1fr] gap-10 py-3">
+      <div class="text-right text-gray-500">
+        <div>12:45 PM</div>
+        <div class="text-[11px] text-gray-400">to 1:30 PM</div>
+      </div>
+      <div>
+        <p class="font-medium text-gray-800">Lunch and Learn</p>
+        <div class="mt-1 flex flex-wrap gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] bg-blue-50 text-blue-600">All Departments</span>
+        </div>
+      </div>
+    </li>
+
+    <!-- item -->
+    <li class="grid grid-cols-[4rem_1fr] gap-10 py-3">
+      <div class="text-right text-gray-500">
+        <div>1:30 PM</div>
+        <div class="text-[11px] text-gray-400">to 2:30 PM</div>
+      </div>
+      <div>
+        <p class="font-medium text-gray-800">Focus Group Discussion</p>
+        <div class="mt-1 flex flex-wrap gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] bg-rose-50 text-rose-500">Product Development</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+    </aside>
+  </div>
+</div>
